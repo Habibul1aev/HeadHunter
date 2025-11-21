@@ -1,0 +1,74 @@
+{% extends 'workspace/resume/base.html' %}
+
+{% block create %}
+	{% if user.is_authentificated %}
+		<div class="max-w-2xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg">
+        <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Создать резюме</h1>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Имя</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <p class="text-red-500 text-sm">{{ form.name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.surname.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Фамилия</label>
+                {{ form.surname }}
+                {% if form.surname.errors %}
+                    <p class="text-red-500 text-sm">{{ form.surname.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.profession.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Профессия</label>
+                {{ form.profession }}
+                {% if form.profession.errors %}
+                    <p class="text-red-500 text-sm">{{ form.profession.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.experience.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Опыт работы</label>
+                {{ form.experience }}
+                {% if form.experience.errors %}
+                    <p class="text-red-500 text-sm">{{ form.experience.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.skills.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Навыки</label>
+                {{ form.skills }}
+                {% if form.skills.errors %}
+                    <p class="text-red-500 text-sm">{{ form.skills.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.education.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Образование</label>
+                {{ form.education }}
+                {% if form.education.errors %}
+                    <p class="text-red-500 text-sm">{{ form.education.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.gmail.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
+                {{ form.gmail }}
+                {% if form.gmail.errors %}
+                    <p class="text-red-500 text-sm">{{ form.gmail.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+
+            <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300">
+                Сохранить резюме
+            </button>
+        </form>
+    </div>
+	{% endif %}
+
+{% endblock %}

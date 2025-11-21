@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Помощь</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        {% include 'cards/nav.html' %}
+    {% else %}
+        {% include 'components/help_resume.html' %}
+    {% endif %}
+
+    <div class="w-full max-w-[1700px] px-4 mx-auto">
+        <div class="mt-[40px] ">
+            <p>Если вы хотите подсказать нам, как улучшить наш сайт, высказать ваши замечания или задать вопрос службе
+                <br> поддержки, пожалуйста, выберите подходящую тему и категорию вашего вопроса из предложенных вариантов:</p>
+            <h1 class="font-bold text-[42px]">Пишите нам!</h1>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="w-[200px] mt-[20px] mb-[40px] bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Отправить</button>
+        </form>
+    </div>
+
+
+
+    {% include 'main/footer.html' %}
+
+</body>
+</html>

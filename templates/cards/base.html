@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Свежие вакансии</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    {% include 'cards/nav.html' %}
+    {% block search %} {% endblock %}
+    {% block cards %} {% endblock %}
+    {% block vacancy %} {% endblock %}
+    {% include 'main/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+<div class="bg-black pt-[25px] pb-[25px] pl-[30px] pr-[30px]">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-[30px]">
+                <a href="{% url 'cards' %}" class="bg-red-600 w-[60px] h-[60px] rounded-full flex items-center justify-center font-bold text-[24px] text-white">hh</a>
+                <a href="{% url 'myresume' %}" class="text-gray-400 font-bold text-[24px] hover:text-gray-500">Мои резюме</a>
+                <a href="{% url 'help' %}" class="text-gray-400 font-bold text-[24px] hover:text-gray-500">Отклики</a>
+                <a href="{% url 'help' %}" class="text-gray-400 font-bold text-[24px] hover:text-gray-500">Помощь</a>
+            </div>
+            <div class="flex items-center gap-[15px]">
+                <div class="">
+                    <button class="p-2 rounded-full bg-black hover:bg-black transition flex text-gray-400 items-center text-[20px] gap-[10px]">
+                        <svg class="w-6 h-6 text-gray-400 hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Поиск
+                    </button>
+                </div>
+
+                <div class="">
+                    <button class="p-2 rounded-full bg-black transition flex text-gray-400 items-center text-[20px] gap-[10px]">
+                        <svg class="w-6 h-6 text-gray-400 hover:text-gray-500 transform rotate-" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(50deg);">
+                            <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
+                        </svg>
+                        Кыргызстан
+                    </button>
+                </div>
+
+                <div class="">
+                    <button class="p-2 rounded-full bg-black transition">
+                        <svg class="w-6 h-6 text-gray-400 hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+                        </svg>
+                    </button>
+
+                </div>
+                <div class="w-[210px] h-[50px] bg-gray-700 rounded-xl text-center pt-[9px] text-white">Создать резюме</div>
+                <div class="">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-lg font-medium text-white">
+                            {{ user1 }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

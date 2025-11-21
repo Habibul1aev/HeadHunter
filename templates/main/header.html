@@ -1,0 +1,93 @@
+<div class="p-2 text-black font-semibold">
+    <div class="w-full max-w-[1700px] px-4 mx-auto flex gap-10">
+        <div class="">
+
+            <p id="openModal" class="text-gray-700">
+                <strong id="selected-country" class="text-blue-600" >
+                    {% if country %}
+                    	{{ country }}
+                    {% else %}
+                        Кыргызстан
+                    {% endif %}
+                </strong>
+            </p>
+            <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden"></div>
+
+            <div id="modal" class="fixed inset-0 flex mt-[50px] ml-[30px] hidden">
+                <div class="bg-white w-[400px] h-[400px] p-4 rounded-lg shadow-lg relative">
+                    <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+
+                    <form method="GET">
+
+                        <h2 class="text-xl font-semibold mb-2">Выберите город</h2>
+
+                        <input type="text" id="citySearch" class="border p-2 w-full rounded" placeholder="Поиск по городам">
+
+
+                            {% for country in countries %}
+                                <button
+                                    type="submit"
+                                    name="search_city"
+                                    value="{{ country.countries }}"
+                                    class="mt-2 max-h-60 overflow-y-auto border rounded">
+                                    {% if country.countries == selected_country %}selected{% endif %}
+                                    <h1 class="p-2 hover:bg-gray-100 cursor-pointer w-[360px]">{{ country.countries }}</h1>
+                                </button>
+                            {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="{% url 'cards' %}" class="condidate px-3">Соискателям</a>
+            <a href="{% url 'employer' %}" class="employer px-3">Работодателям</a>
+        </nav>
+    </div>
+</div>
+
+<script>
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
+    const modal = document.getElementById("modal");
+    const overlay = document.getElementById("modalOverlay");
+
+    openModal.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    });
+
+    closeModal.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    });
+
+    overlay.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    });
+
+
+    document.getElementById("citySearch").addEventListener("input", function() {
+        let filter = this.value.toLowerCase();
+        let items = document.querySelectorAll("#cityList h1");
+        let hasResults = false;
+
+        items.forEach(item => {
+            if (item.textContent.toLowerCase().includes(filter)) {
+                item.style.display = "block";
+                hasResults = true;
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        document.getElementById("cityList").classList.toggle("hidden", !hasResults);
+    });
+
+    document.querySelectorAll("#cityList h1").forEach(item => {
+        item.addEventListener("click", function() {
+            document.getElementById("citySearch").value = this.textContent;
+            document.getElementById("cityList").classList.add("hidden");
+        });
+    });
+</script>

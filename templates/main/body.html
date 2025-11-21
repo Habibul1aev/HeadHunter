@@ -1,0 +1,343 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block chapter %}
+    <div class="bg-gray-200 w-auto h-[760px] pt-[70px]">
+        <div class="w-full max-w-[1700px] px-4 mx-auto">
+            <div class="flex items-center justify-between">
+            <div class="flex items-center gap-[30px]">
+                <div class="bg-red-600 w-[70px] h-[70px] rounded-full flex items-center justify-center font-bold text-[24px] text-white">hh</div>
+                <a href="{% url 'help' %}" class="font-bold text-[24px] hover:text-blue-400">Помощь</a>
+            </div>
+            <div class="flex items-center gap-[30px]">
+                <a href="{% url 'create-resume' %}" class="w-[210px] h-[50px] bg-translate border-2 border-green-500 rounded-3xl text-center pt-[5px] text-green-500 hover:border-green-400">Создать резюме</a>
+                <a href="{% url 'authorization' %}" class="w-[210px] h-[50px] bg-translate border-2 border-white rounded-3xl text-center pt-[5px] text-white hover:border-green-100">Войти</a>
+            </div>
+        </div>
+            <div class="ml-[200px] mt-[100px]">
+                <div class="text-5xl font-bold text-white mb-[20px]">Найди работу мечты</div>
+                <div class="mb-[20px]">
+                    <form method="GET" class="flex space-x-2">
+                        <label>
+                            <input type="text" name="search"
+                                   class="w-[500px] border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   placeholder="Профессия, должность или компания" value="{{ request.GET.search }}">
+                        </label>
+
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                            Найти
+                        </button>
+                    </form>
+                    {% if request.GET.search and not user1.is_authenticated %}
+                        <div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+                        <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                                       bg-white p-6 rounded-lg shadow-xl text-center z-50 w-[500px]">
+                            <div class="flex justify-between">
+                                <h2 class="text-xl font-semibold mb-4">Вы не зарегистрированы</h2>
+                                <a href="{% url 'admin-main' %}" class="text-xl font-bold text-black hover:text-red-500 focus:outline-none">X</a>
+                            </div>
+                            <p class="mb-4">Пожалуйста, <a href="{% url 'registration' %}" class="text-blue-500 underline">зарегистрируйтесь</a> или
+                                <a href="{% url 'authorization' %}" class="text-blue-500 underline">войдите</a>.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <a href="{% url 'employer' %}" class="mt-[20px] mb-[20px] text-white border-b-2 border-white">Я ищу сотрудника</a>
+            </div>
+            <div class="mt-[220px]">
+                <div class="flex items-center gap-[40px]">
+                    <div class="">
+                        <div class="text-white text-4xl">{{ resume }}</div>
+                        <div class="text-white text-xl">резюме</div>
+                    </div>
+                    <div class="">
+                        <div class="text-white text-4xl">{{ vacancies }}</div>
+                        <div class="text-white text-xl">ваканция</div>
+                    </div>
+                    <div class="">
+                        <div class="text-white text-4xl">{{ company }}</div>
+                        <div class="text-white text-xl">компания</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block gmail-form %}
+	<div class="mt-[40px] mb-[40px] flex">
+        <div class="bg-blue-100 w-[850px] pt-[70px] pl-[70px] h-[300px] rounded-tl-[20px] rounded-bl-[20px] border-[1px] border-gray">
+            <div class="bg-red-600 w-[50px] h-[50px] rounded-full flex items-center justify-center font-bold text-[24px] text-white">hh</div>
+            <div class="mt-[50px] font-bold bg-white w-[700px] h-[90px] p-[15px] rounded-[20px]">Напишите телефон, чтобы роботодатели могли предложить <br> вам роботу</div>
+        </div>
+        <div class="h-[300px] rounded-tr-[20px] rounded-br-[20px] border-[1px] border-gray pl-[40px] w-[850px]">
+            <div class="pt-[20px] pb-[30px]">
+
+                {% if not context %}
+                	<form method="POST" class="space-y-4">
+                        {% csrf_token %}
+                        <label>
+                            <input type="email" name="email" required
+                                   class="w-[500px] border border-gray-300 p-2 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                   placeholder="почта example@gmail.com"
+                                   value="{{ request.session.verify_email|default:'' }}">
+                        </label>
+                        <button type="submit"  name="action" value="send_code"
+                                class="px-4 py-2 bg-blue-500 text-white rounded-[5px] hover:bg-blue-600 transition">
+                            Отправить код
+                        </button>
+                    </form>
+                {% else %}
+                	<form method="POST" class="space-y-4" >
+                        {% csrf_token %}
+                        <label>
+                            <input type="text" name="code" maxlength="6" required class="w-[200px] border border-gray-300 p-2 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Введите код">
+                        </label>
+                        <button type="submit" name="action" value="verify_code"
+                                class="px-4 py-2 bg-green-500 text-white rounded-[5px] hover:bg-green-600 transition">
+                            Подтвердить
+                        </button>
+                    </form>
+                    {% if show_error_modal %}
+                    	<div class="flex items-center justify-center min-h-screen bg-gray-100">
+                            <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+                                <h1 class="text-green-600 text-2xl font-semibold">Неправильный email или код !</h1>
+                                <p class="text-gray-700 mt-2">Вы ввели неправильный код или у вы не зарегистрированы</p>
+                                <a href="{% url 'cards' %}" class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Назад</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <h1 class="text-gray-400">Нажимя << Продолжить >>, вы подтверждайте что ознокомлены, <br> полностью согласны и принимайте условия <a href="{% url 'agreement' %}" class="text-blue-400 hover:text-red-400"><< Соглашение об оказаний <br> услуг по содействию в трудоустройстве (офера) >></a></h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block cards %}
+	<div id="cardsContainer" class="grid grid-cols-4 gap-4 p-4 overflow-hidden max-h-[680px] transition-all duration-500">
+        <div class="w-[400px] h-[200px] rounded-[10px] border-[1px] border-gray">
+            <div class="flex">
+                <div class="h-[200px] w-[20px] bg-red-200 rounded-tl-[10px] rounded-bl-[10px]"></div>
+                <div class="pl-[20px] pt-[10px] pb-[20px]">
+                    <h1 class="font-medium text-[32px]">Вакансии дня</h1>
+                    <p class="text-[18px]">{{ min }} - {{ max }} сом</p>
+
+                    <h3 class="pt-[60px]">{{ vacancies }} вакансии</h3>
+                </div>
+            </div>
+        </div>
+        {% for category in category_stats %}
+        	<div class="w-[400px] h-[200px] rounded-[10px] border-[1px] border-gray">
+                <div class="flex">
+                    <div class="h-[200px] w-[20px] bg-red-200 rounded-tl-[10px] rounded-bl-[10px]"></div>
+                    <div class="pl-[20px] pt-[10px] pb-[20px]">
+                        <h1 class="font-medium text-[32px]">{{ category.category.name.capitalize }}</h1>
+                        <p class="text-[18px]">{{ category.min_price }} - {{ category.max_price }} сом</p>
+
+                        <h3 class="pt-[60px]">{{ category.cat_count }} вакансии</h3>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+    <button id="toggleButton" class="border-b-2 border-blue-500 text-blue-500 hover:text-blue-400 hover:border-blue-400 hidden">Еще 22 профессии</button>
+
+    <script>
+          document.addEventListener("DOMContentLoaded", function () {
+              let container = document.getElementById("cardsContainer");
+              let button = document.getElementById("toggleButton");
+
+              if (container.scrollHeight > 680) {
+                  button.classList.remove("hidden");
+              }
+
+              button.addEventListener("click", function () {
+                  if (container.classList.contains("max-h-680")) {
+                      container.classList.remove("max-h-680");
+                      container.classList.add("max-h-[1400px]");
+                      this.textContent = "Скрыть";
+                  } else {
+                      container.classList.add("max-h-680");
+                      container.classList.remove("max-h-[1400px]");
+                      this.textContent = "Ещё 22 профессии";
+                  }
+              });
+          });
+    </script>
+{% endblock %}
+
+{% block workFrom %}
+	<div class="flex gap-[20px] justify-between">
+        <div class="">
+            <div class="">
+                <h1 class="text-[34px] font-bold">Работа в Osh</h1>
+                <div class="w-[400px] h-[800px]  mb-[40px]">
+                    <div class="w-[400px] h-[240px] bg-gray-300"></div>
+                    {% for category in category_stats %}
+                    	<div class="flex items-end justify-between pr-[10px] pl-[10px] pt-[10px]">
+                            <a href="#" class="text-[24px] text-gray-800 hover:text-black">{{ category.category.name.capitalize }}</a>
+                            <div class="text-gray-500">{{ category.cat_count }}</div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-100 h-[850px] w-[1px]"></div>
+        <div class="">
+            <h1 class="text-[34px] font-bold">Вакансии дня Ош</h1>
+            <div class="grid grid-cols-2 gap-[40px]">
+                {% for work in works %}
+                	<a href="#">
+                        <div class="w-[300px] h-[110px] p-[10px]">
+                            <div class="font-medium">{{ work.name }}</div>
+                            <div class="font-medium">{{ work.from_price }} - {{ work.to_price }} сом</div>
+                            <div class="text-gray-500">{{ work.address }}, {{ work.city }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+
+
+            </div>
+        </div>
+        <div class="">
+            <div class="bg-gray-300 w-[400px] h-[350px] mt-[50px]"></div>
+            <div class="bg-gray-300 w-[400px] h-[350px] mt-[50px]"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block workProf %}
+    <div class="">
+        <h1 class="text-[34px] font-bold">Работа по профессиям Ош</h1>
+        <div class="flex justify-between items-start">
+            <div class="grid grid-cols-3 gap-[10px]">
+                {% for category in categories %}
+                	<a href="#" class="w-[250px] ml-[20px]">{{ category.name.capitalize }}</a>
+                {% endfor %}
+
+            </div>
+            <div class="bg-gray-300 w-[400px] h-[350px]"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block recommendations %}
+    <div class="bg-gray-100 h-[1px] w-[1700px] mt-[10px]"></div>
+	<div class="flex mb-[40px] gap-[40px] mt-[40px] justify-between">
+        <div class="">
+            <h1 class="text-[36px] font-bold">Новости</h1>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[20px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+        </div>
+        <div class="bg-gray-100 h-[500px] w-[1px]"></div>
+        <div class="">
+            <h1 class="text-[36px] font-bold">Статьи</h1>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[20px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+            <div class="bg-gray-100 h-[1px] w-[350px]"></div>
+            <div class="flex items-center gap-[10px] justify-between mb-[10px] mt-[10px]">
+                <div class="bg-gray-400 w-[100px] h-[80px]"></div>
+                <div class="">Авторазбор откликов с <br> чат-ботом: разберет, <br> задастe вопросы</div>
+            </div>
+        </div>
+        <div class="bg-gray-100 h-[500px] w-[1px]"></div>
+        <div class="">
+            <h1 class="text-[36px] font-bold">Работа по <br> профессиям</h1>
+            <div class="grid mt-[20px]">
+                {% for category in categories %}
+                	<a href="#" class="mb-[5px]">Для {{ category.name.lower }}</a>
+                {% endfor %}
+
+
+            </div>
+        </div>
+        <div class="bg-gray-100 h-[500px] w-[1px]"></div>
+        <div class="">
+            <h1 class="text-[36px] font-bold">Работа в других <br> городах</h1>
+            <div class="grid mt-[20px]">
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+                <a href="#" class="mb-[5px]"> Для программистов</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block info %}
+	<div class="mb-[40px]">
+        <h1 class="text-[36px] font-bold">Работа в Кыргызстане</h1>
+        <div id="text" class="max-h-20 overflow-hidden">
+            HeadHunter (headhunter.kg) — место, где работа найдётся всегда!
+            <br>
+            <div class="h-[10px]"></div>
+            Работа — важная часть жизни каждого из нас. Однако в жизни каждого человека наступает момент, когда он задумывается о смене работы, а может быть, даже и сферы деятельности. Увы, перемены — это не всегда легко, поэтому сомнения неизбежны.
+            <br>
+            <div class="h-[10px]"></div>
+            С чего начать поиск работы? Какая работа мне подойдет? Есть ли такие вакансии на рынке труда? Как правильно составить резюме? Ответить на все эти вопросы поможет сайт headhunter.kg, где ежедневно тысячи людей ищут и находят работу, а работодатели размещают вакансии.
+            <br>
+            <div class="h-[10px]"></div>
+            Как лучше искать работу на headhunter.kg? Вы можете просматривать вакансии и откликаться на понравившиеся предложения. К услугам кандидатов обширный каталог профессиональных областей, где можно выбрать специальность. Достаточно всего лишь пару раз кликнуть мышкой, чтобы получить список актуальных и качественных предложений в выбранном регионе. Расширенные настройки поиска гарантируют, что интересующая вас работа будет найдена. Если вы уже определились, вакансии каких специальностей вам подходят, вам остаётся только создать привлекательное резюме и начинать поиск работы мечты! Создание резюме способствует тому, что вас заметят и пригласят на собеседование — работа не заставит себя ждать! Поэтому мы рекомендуем сочетать оба этих метода, чтобы найти работу.
+            <br>
+            <div class="h-[10px]"></div>
+            Лучшие работодатели приходят на наш сайт, чтобы опубликовать свои вакансии и подобрать персонал. Почему? Потому что к их услугам многомиллионная база резюме специалистов разного уровня, выгодные предложения, помощь персональных менеджеров и многое другое. Кроме того, на headhunter.kg каждый пользователь может узнать самые последние данные о рынке труда, изучить свежий обзор зарплат и ознакомиться с различными исследованиями. Соискателям это помогает оценить свой потенциал, чтобы скорректировать поиск работы, а работодателям — определить, чего стоит ждать от кандидатов. Поиск работы и сотрудников с headhunter.kg — это быстро и удобно. Убедитесь в этом сами!
+        </div>
+        <button id="btn" class="border-b-2 border-blue-500 text-blue-500 hover:text-blue-400 hover:border-blue-400">Показать полностью</button>
+    </div>
+
+    <script>
+        document.getElementById('btn').addEventListener('click', function () {
+            const text = document.getElementById('text')
+
+            if (text.classList.contains('max-h-20')){
+                text.classList.remove('max-h-20')
+                text.classList.add('max-h-90')
+                this.textContent = 'Скрыть'
+            }else{
+                text.classList.add('max-h-20')
+                text.classList.remove('max-h-90')
+                this.textContent = 'Показать полностью'
+            }
+        })
+    </script>
+{% endblock %}

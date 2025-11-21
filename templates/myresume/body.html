@@ -1,0 +1,25 @@
+{% extends 'myresume/base.html' %}
+
+
+{% block create_resume %}
+    <div class="w-full max-w-[1700px] px-4 mx-auto mb-[50px]">
+        <div class="flex justify-between items-center pb-[30px] pt-[50px] w-[900px]">
+            <h1 class="text-3xl font-bold text-center">Мои резюме</h1>
+            <a href="{% url 'create-resume' %}" class="bg-gray-200 p-[10px] rounded-xl">
+                <p class="font-bold">Создать резюме</p>
+            </a>
+        </div>
+        <a href="#">
+            <div class="w-[900px] h-[100px] rounded-3xl border">
+                <div class="flex items-center gap-4 pt-[15px] pl-[15px]">
+                    <div class="w-[70px] h-[70px] bg-gray-300 rounded-xl"></div>
+                    <div class="">
+                        <div class="">{{ user.first_name }} {{ user.last_name }}</div>
+                        <div class="text-green-500">Расматриваю предложения</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+

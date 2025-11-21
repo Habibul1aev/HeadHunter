@@ -1,0 +1,81 @@
+{% extends 'employers/base.html' %}
+
+{% block head %} 
+    <div class="bg-gray-200">
+        <div class="w-full max-w-[1700px] h-[650px] px-4 mx-auto">
+            <div class="pt-[100px] pb-[60px]">
+                <h1 class="text-7xl font-bold text-center">Разместите <br> вакансию <br> на headhunter.kg</h1>
+                <p class="text-center">и находите сотрудников среди тех, кто хочет у вас работать.</p>
+                <div class="flex items-center justify-center w-[400px] h-[80px] bg-blue-500 rounded-lg ml-[640px] mt-[30px]">
+                    <button class="font-medium text-[24px] text-white ">Разместить вакансию</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block start %}
+	<div class="bg-gray-100 pt-[20px] pb-[20px]">
+        <div class="w-full max-w-[1700px] px-4 mx-auto">
+            <div class="mt-[20px] mb-[20px]">
+                <h1 class="text-5xl font-bold text-center">С чего начать <br> поиск <br> сотрудников?</h1>
+            </div>
+        <div class="flex justify-center gap-[100px] mb-[40px]">
+            <div class="">
+                <h1 class="text-[72px] text-blue-500">01</h1>
+                <h3 class="font-bold text-[24px] mt-[10px] mb-[20px]">Зарегистрируйтесь</h3>
+                <p class="text-gray-500">И получите доступ <br> ко всем услугам headhunter.kg</p>
+            </div>
+            <div class="">
+                <h1 class="text-[72px] text-blue-500">02</h1>
+                <h3 class="font-bold text-[24px] mt-[10px] mb-[20px]">Разместите вакансию</h3>
+                <p class="text-gray-500">Получайте отклики с контактами <br> соискателей</p>
+            </div>
+            <div class="">
+                <h1 class="text-[72px] text-blue-500">03</h1>
+                <h3 class="font-bold text-[24px] mt-[10px] mb-[20px]">Выбирайте лучших</h3>
+                <p class="text-gray-500">Из тех, кто уже хочет у вас <br> работать</p>
+            </div>
+        </div>
+        <div class="mb-[40px]">
+            <a href="#" class="flex items-center justify-center w-[400px] h-[80px] bg-blue-500 rounded-lg ml-[640px] mt-[30px]">
+                <h1 class="font-medium text-[24px] text-white">Начать подбор</h1>
+            </a>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block search %}
+    <div class="w-full max-w-[1700px] px-4 mx-auto ">
+        <div class="pt-[50px] pb-[60px] ">
+            <h1 class="text-5xl font-bold text-center">Какие <br> сотрудники <br> есть на headhunter.kg?</h1>
+            <p class="text-center mt-[10px] mb-[20px]">Не ждите откликов — найдите идеального сотрудника сами <br> среди 395 205 резюме у 306 192 соискателей</p>
+            <form method="GET" class="flex justify-center gap-[10px]">
+                <label>
+                     <input type="text" name="search"
+                            class="w-[1000px] h-[80px] text-[24px] border border-gray-300 p-2 pl-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            placeholder="Поиск по резюме" value="{{ request.GET.query }}">
+                </label>
+
+                <button type="submit" class="w-[200px] h-[80px] text-[24px] px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    Найти
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block help %}
+	<div class="w-full max-w-[1700px] px-4 mx-auto">
+        <div class="pt-[50px] pb-[60px]">
+            <h1 class="text-5xl font-bold text-center">Помощь и поддержка</h1>
+            <p class="text-center text-[24px] text-gray-500">Техническая поддержка, помощь в выборе и расчёте пакета услуг по телефону</p>
+            <h1 class="text-center text-[36px] text-black mt-[20px] mb-[20px]">+996880110930</h1>
+            <h1 class="text-center text-[24px] text-gray-500">hhabibullaevfirdavs@gmail.com</h1>
+
+        </div>
+    </div>
+{% endblock %}
