@@ -1,5 +1,7 @@
 asgiref==3.8.1
 Django==5.1.6
+django-cleanup==9.0.0
+django-cors-headers==4.7.0
 django-filter==25.1
 django-phonenumber-field==8.0.0
 django-resized==1.0.3
@@ -9,6 +11,7 @@ inflection==0.5.1
 packaging==24.2
 phonenumbers==8.13.55
 pillow==11.1.0
+python-decouple==3.8
 pytz==2025.1
 PyYAML==6.0.2
 sqlparse==0.5.3

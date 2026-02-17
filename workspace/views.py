@@ -108,8 +108,6 @@ class Registration(View):
             user1 = form.save()
             login(request, user1)
 
-
-
             messages.success(request, f'Вы успешно создали аккаунт')
             return redirect('/cards/')
 

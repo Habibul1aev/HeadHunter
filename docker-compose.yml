@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000  # команда для запуска Django
+    volumes:
+      - .:/app  # подключаем код проекта внутрь контейнера
+    ports:
+      - "8000:8000"  # проброс порта
+    env_file:
+      - .env  # твои переменные окружения
+#    depends_on:
+#      - db  # зависит от базы данных
+
+#  db:
+#    image: postgres:15  # официальный образ PostgreSQL
+#    environment:
+#      POSTGRES_USER: myuser
+#      POSTGRES_PASSWORD: mypassword
+#      POSTGRES_DB: mydatabase
+#    ports:
+#      - "5432:5432"
